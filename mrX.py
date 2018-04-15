@@ -1,10 +1,12 @@
-import config, pdb
+import config, brain, pdb
 from fbchat import Client
 from fbchat.models import *
 
 
 class MrxClient(Client):
 	def onMessage(self, mid, author_id, message_object, thread_id, thread_type, ts, metadata, msg, **kwargs):
+		listenPrefix= "mrx "
+		mrxVersion= "0.1"
 		# Do something with message_object here
 		#print("mid: " + str(mid))
 		print("author_id: " + str(author_id))
@@ -17,8 +19,12 @@ class MrxClient(Client):
 
 		self.markAsDelivered(author_id, thread_id)
 		self.markAsRead(author_id)
-		if message_object.text.lower() == 'next date':
-			client.send(Message(text='180517'), thread_id=thread_id, thread_type=thread_type)
+		if message_object.text.lower() == (listenPrefix + 'version'):
+			client.send(Message(text=mrxVersion), thread_id=thread_id, thread_type=thread_type)
+		if message_object.text.lower() == listenPrefix + 'next date':
+			client.send(Message(text='180609?'), thread_id=thread_id, thread_type=thread_type)
+		elif message_object.text.lower() == listenPrefix + 'calendar':
+			client.send(Message(text=brain.HKX['CALENDAR']), thread_id=thread_id, thread_type=thread_type)
 		pass
 
 
