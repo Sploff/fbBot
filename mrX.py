@@ -17,12 +17,14 @@ class MrxClient(Client):
 		#print("metadata: " + str(metadata))
 		#print("msg: " + str(msg))
 
-		self.markAsDelivered(author_id, thread_id)
-		self.markAsRead(author_id)
-		if message_object.text.lower() == (listenPrefix + 'version'):
+		#self.markAsDelivered(author_id, thread_id)
+		#self.markAsRead(author_id)
+		if message_object.text.lower() == (listenPrefix + 'help'):
+			client.send(Message(text='- help\n- version\n- next date\n- calendar'), thread_id=thread_id, thread_type=thread_type)
+		elif message_object.text.lower() == (listenPrefix + 'version'):
 			client.send(Message(text=mrxVersion), thread_id=thread_id, thread_type=thread_type)
-		if message_object.text.lower() == listenPrefix + 'next date':
-			client.send(Message(text='180609?'), thread_id=thread_id, thread_type=thread_type)
+		elif message_object.text.lower() == listenPrefix + 'next date':
+			client.send(Message(text=brain.HKX['DATES'][brain.HKX['NEXT_DATE'][0]][brain.HKX['NEXT_DATE'][1]]), thread_id=thread_id, thread_type=thread_type)
 		elif message_object.text.lower() == listenPrefix + 'calendar':
 			client.send(Message(text=brain.HKX['CALENDAR']), thread_id=thread_id, thread_type=thread_type)
 		pass
@@ -45,8 +47,11 @@ def login():
 
 #client.send(Message(text='<message>'), thread_id='<user id>', thread_type=ThreadType.USER)
 #client.send(Message(text='<message>'), thread_id='<group id>', thread_type=ThreadType.GROUP)
-def sendMsg(user,msg):
-	client.send(Message(text=msg), thread_id=config.USERS[user], thread_type=ThreadType.USER)
+def sendMsg(user,msg,tType='user'):
+	if tType == 'user':
+		client.send(Message(text=msg), thread_id=brain.USERS[user], thread_type=ThreadType.USER)
+	else:
+		client.send(Message(text=msg), thread_id=brain.GROUPS[user], thread_type=ThreadType.GROUP)
 
 def logout():
 	client.logout()
