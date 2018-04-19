@@ -31,7 +31,26 @@ USERS= {
 	'Philip': '536259023'
 }
 
-GROUPS= {
+CHAT= {
 	'HKX': '867886790007752'
 }
 
+GROUPS= {
+	'TEST': [
+		'Amanda',
+		'Christian'
+	],
+	'HKX': [
+		'Andy',
+		'Christian',
+		'David',
+		'Joakim',
+		'Philip'
+	]
+}
+
+
+POS= {
+	'Christian': '55°32\'26.3"N+12°55\'23.2"E',
+	'Christian2': 'https://goo.gl/maps/2UsD7pF3SJQ2'
+}

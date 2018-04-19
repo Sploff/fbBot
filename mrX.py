@@ -1,6 +1,46 @@
-import config, brain, pdb
+import config, brain, eventPlans, pdb, threading
 from fbchat import Client
 from fbchat.models import *
+from datetime import datetime
+
+from apscheduler.schedulers.blocking import BlockingScheduler
+#pdb.set_trace()
+
+
+#client.send(Message(text='<message>'), thread_id='<user id>', thread_type=ThreadType.USER)
+#client.send(Message(text='<message>'), thread_id='<group id>', thread_type=ThreadType.GROUP)
+def sendMsg(user,msg,tType='user'):
+	if tType == 'user':
+		client.send(Message(text=msg), thread_id=brain.USERS[user], thread_type=ThreadType.USER)
+	else:
+		client.send(Message(text=msg), thread_id=brain.GROUPS[user], thread_type=ThreadType.GROUP)
+
+def goto(user,pos,date_time):
+	msg= "Infinn dig! ({})\n{}".format(str(date_time),brain.POS[pos])
+	sendMsg(user,msg)
+
+
+stupid_translator= {
+	'goto': goto,
+	'sendMsg': sendMsg
+}
+
+def my_job(text):
+	print(text)
+
+
+
+def startEvents():
+	print("START")
+	sched = BlockingScheduler()
+	for plan in eventPlans.TILL_JOBB:
+		sched.add_job(stupid_translator[plan[1]], 'date', run_date=plan[0], args=plan[2])
+	sched.start()
+
+t = threading.Thread(target=startEvents)
+t.daemon = True  # thread dies when main thread (only non-daemon thread) exits.
+t.start()
+
 
 
 class MrxClient(Client):
@@ -47,11 +87,16 @@ def login():
 
 #client.send(Message(text='<message>'), thread_id='<user id>', thread_type=ThreadType.USER)
 #client.send(Message(text='<message>'), thread_id='<group id>', thread_type=ThreadType.GROUP)
-def sendMsg(user,msg,tType='user'):
+def sendMsg2(user,msg,tType='user'):
 	if tType == 'user':
 		client.send(Message(text=msg), thread_id=brain.USERS[user], thread_type=ThreadType.USER)
 	else:
 		client.send(Message(text=msg), thread_id=brain.GROUPS[user], thread_type=ThreadType.GROUP)
+
+def goto2(user,pos,dateTime):
+	msg= "Infinn dig! ({})\n{}".format(dateTime,brain.POS[pos])
+	sendMsg(user,msg)
+
 
 def logout():
 	client.logout()
@@ -60,3 +105,4 @@ def logout():
 if __name__ ==  '__main__':
 	client.listen()
 	#pdb.set_trace()
+	pass
