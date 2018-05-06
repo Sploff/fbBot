@@ -1,8 +1,8 @@
 import config, brain, eventPlans, pdb, threading, time
 from fbchat import Client
 from fbchat.models import *
+from UserCommand import UserCommand
 from datetime import datetime
-
 from apscheduler.schedulers.blocking import BlockingScheduler
 #pdb.set_trace()
 
@@ -64,7 +64,10 @@ t.start()
 
 
 class MrxClient(Client):
+	user_cmd= None
+
 	def onMessage(self, mid, author_id, message_object, thread_id, thread_type, ts, metadata, msg, **kwargs):
+		user_cmd= UserCommand(author_id, message_object)
 		listenPrefix= "mrx "
 		mrxVersion= "0.1"
 		# Do something with message_object here
@@ -80,10 +83,10 @@ class MrxClient(Client):
 		#self.markAsDelivered(author_id, thread_id)
 		#self.markAsRead(author_id)
 		#pdb.set_trace()
-		if message_object.text:
-			if message_object.text.lower() == (listenPrefix + 'help'):
+		if user_cmd and user_cmd.content and user_cmd.user_name != 'MrX':
+			if 'help' in user_cmd.content and user_cmd.is_user():
 				client.send(Message(text='- help\n- version\n- next date\n- calendar\n- commands'), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == (listenPrefix + 'commands'):
+			elif 'commands' in user_cmd.content and user_cmd.is_admin():
 				client.send(Message(text=(
 					'- get users\n'
 					'- get groups\n'
@@ -94,25 +97,28 @@ class MrxClient(Client):
 					'*- add msg [<users/group>] [<exclude users>] <msg>\n'
 					'* not implemented yet\n'
 				)), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == (listenPrefix + 'version'):
-				client.send(Message(text=mrxVersion), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == listenPrefix + 'next date':
+			elif 'version' in user_cmd.content:
+				client.send(Message(text=brain.INFO['VERSION']), thread_id=thread_id, thread_type=thread_type)
+			elif 'next date' in user_cmd.content and user_cmd.is_user():
 				client.send(Message(text=brain.HKX['DATES'][brain.HKX['NEXT_DATE'][0]][brain.HKX['NEXT_DATE'][1]]), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == listenPrefix + 'calendar':
+			elif 'calendar' in user_cmd.content and user_cmd.is_user():
 				client.send(Message(text=brain.HKX['CALENDAR']), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == listenPrefix + '2018':
-				client.send(Message(text=str(brain.HKX['DATES'][2018])), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == listenPrefix + 'get users':
+			elif '2018' in user_cmd.content and user_cmd.is_user():
+				strOut= ""
+				for date in brain.HKX['DATES']['2018']:
+					strOut+= "{}\n".format(date)
+				client.send(Message(text=strOut), thread_id=thread_id, thread_type=thread_type)
+			elif 'get users' in user_cmd.content and user_cmd.is_admin():
 				users= []
 				for user in brain.USERS:
 					users.append(user)
 				client.send(Message(text=str(users)), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == listenPrefix + 'get groups':
+			elif 'get groups' in user_cmd.content and user_cmd.is_admin():
 				groups= ""
 				for group in brain.GROUPS:
 					groups+="{}:\n{}\n".format(str(group), str(brain.GROUPS[group]))
 				client.send(Message(text=groups), thread_id=thread_id, thread_type=thread_type)
-			elif message_object.text.lower() == listenPrefix + 'get pos':
+			elif 'get pos' in user_cmd.content and user_cmd.is_admin():
 				positions= ""
 				for pos in brain.POS:
 					positions+= "{}: {}\n".format(pos, brain.POS[pos])

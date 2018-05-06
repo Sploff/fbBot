@@ -1,7 +1,9 @@
 INFO= {
-	'VERSION': '0.1.1',
+	'VERSION': '0.4.0',
 	'0.1': "Static events",
-	'0.1.1': "Show event for 2018"
+	'0.2': "Show event for 2018",
+	'0.3': "Get commands for users, groups, positions",
+	'0.4': "UserCommand object and super-user, admin and user roles"
 }
 
 HKX= {
@@ -9,7 +11,7 @@ HKX= {
 	'CALENDAR': 'https://docs.google.com/spreadsheets/d/1-TqeFBsELQiJSTyt1iSfyRasHGVJSEYvRAeNQa1FdBk/edit?usp=sharing',
 	'DATES': {
 		'2018': [
-			'180302, 2 mars',
+			'180302, 2 mars, Christian & Jocke',
 			'180613, 13 juni, HKX',
 			'180915, 15 september, Andy & David',
 			'18????, X xxxx, Jocke & Philip'
@@ -38,6 +40,17 @@ CHAT= {
 }
 
 GROUPS= {
+	'SUPER-USERS': [
+		'Christian'
+	],
+	'ADMINS': [
+		'Andy',
+		'David'
+	],
+	'USERS': [
+		'Joakim',
+		'Philip'
+	],
 	'TEST': [
 		'Amanda',
 		'Christian'
