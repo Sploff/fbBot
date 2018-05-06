@@ -1,5 +1,7 @@
 INFO= {
-	'VERSION': '0.1'
+	'VERSION': '0.1.1'
+	'0.1': "Static events"
+	'0.1.1': "Show event for 2018"
 }
 
 HKX= {
@@ -8,9 +10,9 @@ HKX= {
 	'DATES': {
 		'2018': [
 			'180302, 2 mars',
-			'18????, X xxxx, Jocke & Philip',
-			'18????, X xxxx, Andy & David',
-			'18????, X xxxx'
+			'180613, 13 juni, HKX',
+			'180915, 15 september, Andy & David',
+			'18????, X xxxx, Jocke & Philip'
 		]
 	}
 		
@@ -46,11 +48,21 @@ GROUPS= {
 		'David',
 		'Joakim',
 		'Philip'
+	],
+	'HKX2': [
+		'Andy',
+		'Christian',
+		'David'
 	]
 }
 
 
 POS= {
-	'Christian': '55°32\'26.3"N+12°55\'23.2"E',
-	'Christian2': 'https://goo.gl/maps/2UsD7pF3SJQ2'
+	'Andy': 'https://goo.gl/maps/MxqH2HSMzvp',
+	'Christian': 'https://goo.gl/maps/2UsD7pF3SJQ2',
+
+	'buss_bunkeflostrand_strandhem': 'https://goo.gl/maps/MFJDAoV3nZu',
+	'train_hyllie': 'https://goo.gl/maps/1vFiFQzTUzo',
+
+	'jobb_ikea_hbg': 'https://goo.gl/maps/oKZChdaarUD2'
 }
