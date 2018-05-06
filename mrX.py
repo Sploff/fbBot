@@ -87,7 +87,7 @@ class MrxClient(Client):
 				client.send(Message(text=(
 					'- get users\n'
 					'- get groups\n'
-					'*- get pos\n'
+					'- get pos\n'
 					'*- add user <username> <fb id>\n'
 					'*- add pos <name> <url>\n'
 					'*- add goto [<users/group>] [<exclude users>] <pos> <when to send> <when to be there> \n'
@@ -112,6 +112,11 @@ class MrxClient(Client):
 				for group in brain.GROUPS:
 					groups+="{}:\n{}\n".format(str(group), str(brain.GROUPS[group]))
 				client.send(Message(text=groups), thread_id=thread_id, thread_type=thread_type)
+			elif message_object.text.lower() == listenPrefix + 'get pos':
+				positions= ""
+				for pos in brain.POS:
+					positions+= "{}: {}\n".format(pos, brain.POS[pos])
+				client.send(Message(text=positions), thread_id=thread_id, thread_type=thread_type)
 		elif 'latitude' in str(msg) and 'longitude' in str(msg):
 			latitude= str(msg).split("{'latitude': ")[1].split(", 'longitude': ")[0]
 			longitude= str(msg).split(", 'longitude': ")[1].split("}, ")[0]
