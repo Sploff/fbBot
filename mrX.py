@@ -85,13 +85,14 @@ class MrxClient(Client):
 				client.send(Message(text='- help\n- version\n- next date\n- calendar\n- commands'), thread_id=thread_id, thread_type=thread_type)
 			elif message_object.text.lower() == (listenPrefix + 'commands'):
 				client.send(Message(text=(
-					'* not implemented yet\n'
-					'*- get users\n'
+					'- get users\n'
+					'*- get groups\n'
 					'*- get pos\n'
 					'*- add user <username> <fb id>\n'
 					'*- add pos <name> <url>\n'
 					'*- add goto [<users/group>] [<exclude users>] <pos> <when to send> <when to be there> \n'
-					'*- add msg [<users/group>] [<exclude users>] <msg>'
+					'*- add msg [<users/group>] [<exclude users>] <msg>\n'
+					'* not implemented yet\n'
 				)), thread_id=thread_id, thread_type=thread_type)
 			elif message_object.text.lower() == (listenPrefix + 'version'):
 				client.send(Message(text=mrxVersion), thread_id=thread_id, thread_type=thread_type)
@@ -101,6 +102,11 @@ class MrxClient(Client):
 				client.send(Message(text=brain.HKX['CALENDAR']), thread_id=thread_id, thread_type=thread_type)
 			elif message_object.text.lower() == listenPrefix + '2018':
 				client.send(Message(text=str(brain.HKX['DATES'][2018])), thread_id=thread_id, thread_type=thread_type)
+			elif message_object.text.lower() == listenPrefix + 'get users':
+				users= []
+				for user in brain.USERS:
+					users.append(user)
+				client.send(Message(text=str(users)), thread_id=thread_id, thread_type=thread_type)
 		elif 'latitude' in str(msg) and 'longitude' in str(msg):
 			latitude= str(msg).split("{'latitude': ")[1].split(", 'longitude': ")[0]
 			longitude= str(msg).split(", 'longitude': ")[1].split("}, ")[0]

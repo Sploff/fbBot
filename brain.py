@@ -1,6 +1,6 @@
 INFO= {
-	'VERSION': '0.1.1'
-	'0.1': "Static events"
+	'VERSION': '0.1.1',
+	'0.1': "Static events",
 	'0.1.1': "Show event for 2018"
 }
 
@@ -65,4 +65,14 @@ POS= {
 	'train_hyllie': 'https://goo.gl/maps/1vFiFQzTUzo',
 
 	'jobb_ikea_hbg': 'https://goo.gl/maps/oKZChdaarUD2'
+}
+
+TEXTS= {
+	'new_member_rec': (
+		'Du har blivit rekommenderad till ett hemligt sällskap av en vän. För att få vara med på våra aktiviteter måste du godkänna följande regler:\n'
+		'1. Du får aldrig berätta om detta sällskap för någon som inte är medlem.\n'
+		'2. Du får aldrig berätta för någon om dina uppdrag förrän aktiviteten är över (om inte uppdraget säger annat).\n'
+		'3. Låt det hemliga vara hemligt.\n\n'
+		'Vi svarar aldrig på några frågor och du går med sällskapet på prov genom att svara på detta meddelande där du skriver att du godkänner våra regler.\n'
+		'MVH')
 }
